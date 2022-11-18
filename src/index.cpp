@@ -34,7 +34,7 @@ void render() {
   //   "log",
   //   std::string(page)
   // );
-  current_view = asmdom::patch(current_view, pages.find(page) == pages.end() ? pages["/"] : pages[page]);
+  current_view = asmdom::patch(current_view, pages.find(page) == pages.end() ? pages["/"]() : pages[page]());
 };
 
 int main() {

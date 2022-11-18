@@ -46,7 +46,13 @@ npm start # or make start
 
 Then open `http://localhost:1234` to see the example app. You can now edit `index.cpp` and rerun `npm start` to recompile and see the changes.
 
-## Building for Production DOES NOT WORK because this boilerplate is outdated
+## Building for Production
+
+```bash
+make
+```
+
+(Tell your terminal to make it and it'll make it! It will be in dist folder)
 
 ## Makefile
 
