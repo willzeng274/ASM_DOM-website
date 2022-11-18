@@ -1,6 +1,6 @@
-# asm-dom-boilerplate
+# Boilerplate
 
-A simple boilerplate to start using [asm-dom](https://github.com/mbasso/asm-dom) without configuration.
+A simple boilerplate to start using [asm-dom](https://github.com/mbasso/asm-dom) with CRA-like configuration
 This includes:
 
 - `asm-dom`
@@ -8,7 +8,34 @@ This includes:
 - `parcel-bundler` (`npm i --save-dev parcel-bundler@1.12.3`)
 - `autoprefixer`
 
-The boilerplate automatically compiles C++ code to WebAssembly and asm.js, the client will dinamically require the first if supported, the second otherwise.
+The boilerplate automatically compiles C++ code to WebAssembly and asm.js, the client will dynamically require the first if supported, the second otherwise.
+
+# Project Structure
+
+```
+.
+├── glue/
+|   └── load.js
+├── src/
+│   ├── assets
+|   |   └── *all css and media files
+|   ├── pages
+|   |   └── *all your page.cpp files
+|   ├── App.cpp <- your App file
+│   └── index.js <- loading WASM and importing CSS
+├── includes/ASM_DOM/
+|   ├── config.h <- your routing system and forward-declaration for all your pages
+|   ├── globals.h <- your global variables
+│   └── *all other project header files
+├── Makefile
+├── nodemon.json
+├── .babelrc
+├── .postcssrc
+├── .gitignore
+├──index.html
+└── package.json
+```
+
 
 ## Prerequisites
 
@@ -41,10 +68,10 @@ npm install # or make install
 
 # if you are using windows, you have to make a little change to the Makefile in the root of the project, just open it and follow the instructions at the top
 
-npm start # or make start
+make start
 ```
 
-Then open `http://localhost:1234` to see the example app. You can now edit `index.cpp` and rerun `npm start` to recompile and see the changes.
+Then open `http://localhost:1234` to see the example app. You can now edit `App.cpp` and rerun `make start` to recompile and see the changes.
 
 ## Building for Production
 
@@ -52,7 +79,7 @@ Then open `http://localhost:1234` to see the example app. You can now edit `inde
 make
 ```
 
-(Tell your terminal to make it and it'll make it! It will be in dist folder)
+This will be in the /dist folder
 
 ## Makefile
 

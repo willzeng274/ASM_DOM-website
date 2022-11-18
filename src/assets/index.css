@@ -31,3 +31,18 @@ html, body {
   background-color: transparent;
   border: none;
 }
+
+.fancy-button {
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: none;
+  background: linear-gradient(92.05deg, #d2a8ff 12.09%, #f778ba 42.58%, #ff7b72 84.96%);
+}
+
+.fancy-button:hover {
+  background: linear-gradient(88deg, #d2a8ff 12.09%, #f778ba 42.58%, #ff7b72 84.96%);
+}
+
+.fancy-button:active {
+  background: linear-gradient(40deg, #d2a8ff 12.09%, #f778ba 42.58%, #ff7b72 84.96%);
+}

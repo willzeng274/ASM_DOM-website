@@ -1,21 +1,12 @@
 #include <emscripten/val.h>
 #include "asm-dom.hpp"
 #include "globals.h"
-#include <functional>
-#include <string>
 
 int i = 1;
 
 asmdom::VNode* current_view = NULL;
 
-asmdom::VNode* page1();
-asmdom::VNode* page2();
-
 std::string page = "/";
-std::map<std::string, std::function<asmdom::VNode*()>> pages = {
-  {"/", page1},
-  {"/test", page2}
-};
 
 bool direct(std::string pageN) {
   page = pageN;
@@ -30,17 +21,14 @@ bool direct(std::string pageN) {
 }
 
 void render() {
-  // emscripten::val::global("console").call<emscripten::val>(
-  //   "log",
-  //   std::string(page)
-  // );
-  current_view = asmdom::patch(current_view, pages.find(page) == pages.end() ? pages["/"]() : pages[page]());
+  current_view = asmdom::patch(current_view, pages.find(page) == pages.end() ? pages["/error"]() : pages[page]());
 };
 
 int main() {
   asmdom::Config config;
   asmdom::init(config);
 
+  // default view before load
   current_view = asmdom::h("div",
     asmdom::Data(
       asmdom::Attrs {
@@ -48,6 +36,7 @@ int main() {
       }
     )
   );
+
   asmdom::patch(
     emscripten::val::global("document").call<emscripten::val>(
       "getElementById",
@@ -55,6 +44,8 @@ int main() {
     ),
     current_view
   );
+
+  page = emscripten::val::global("window")["location"]["pathname"].as<std::string>();
 
   render();
 

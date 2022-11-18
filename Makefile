@@ -14,6 +14,7 @@ FILES = \
 
 # options used to compile the C++ code
 CFLAGS = \
+	-std=c++17 \
 	-O3 \
 	-Wall \
 	-Werror \
@@ -24,6 +25,7 @@ CFLAGS = \
 
 # C++ => .wasm options
 WASM_OPTIONS = \
+	-std=c++17 \
 	-O3 \
 	--bind \
 	--memory-init-file 1 \
@@ -46,6 +48,7 @@ WASM_OPTIONS = \
 
 # C++ => .asm.js options
 ASMJS_OPTIONS = \
+	-std=c++17 \
 	-O3 \
 	--bind \
 	--memory-init-file 1 \
