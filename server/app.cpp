@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <string>
+#include <sstream>
+#include <fstream>
 
 #define PORT 8080
 
@@ -43,34 +45,39 @@ int main() {
     char buffer[30000] = {0};
     valread = read( new_socket , buffer, 30000);
     printf("%s\n",buffer );
+    std::istringstream f(buffer);
+    std::string line;
+    std::string URL = "";
 
-    std::string html = (
-      "<!DOCTYPE html>"
-      "<html>"
-        "<head>"
-          "<title>test app/title>"
-          // "<link rel=\"stylesheet\" href=\"/index.css\" />"
-        "</head>"
-        
-        "<body>"
-          "test"
-        "</body>"
-        
-        "<script src=\"/bundle.js\"></script>"
-      "</html>"
-    );
+    while (std::getline(f, line)) {
+      if (line.rfind("GET", 0) == 0) {
+        std::string str = "GET /";
+        std::string str2 = "HTTP/1.1";
+        URL = line.substr(str.length(), line.length() - str.length());
+        URL = URL.substr(0, line.length() - str2.length() - 7);
+        break;
+      }
+    }
+
+    if (URL == "favicon.ico") {
+      close(new_socket);
+      continue;
+    }
+
+    std::ifstream t((URL == "" ? "index" : URL)+".html");
+    std::string html( (std::istreambuf_iterator<char>(t) ), (std::istreambuf_iterator<char>()));
 
     std::string response = (
       "HTTP/1.1 200 OK\n"
       "Content-Type: text/html\n"
-      "Content-Length:" + std::to_string(html.length()) + "\n\n"
+      "Content-Length: " + std::to_string(html.length()) + "\n\n"
       + html
     );
 
     char * hello = (char *)response.data();
 
     write(new_socket , hello , strlen(hello));
-    std::cout << "------------------Hello message sent-------------------";;
+    std::cout << "------------------message sent-------------------";;
     close(new_socket);
   }
   return 0;
