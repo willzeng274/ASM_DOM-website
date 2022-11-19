@@ -32,6 +32,14 @@ html, body {
   border: none;
 }
 
+.content {
+  font-size: 12px;
+  background-color: white;
+  color: black;
+  position: absolute;
+  bottom: 0;
+}
+
 .fancy-button {
   padding: 1rem;
   border-radius: 8px;

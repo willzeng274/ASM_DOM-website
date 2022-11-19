@@ -6,6 +6,7 @@
 
 extern int i;
 extern std::string page;
+extern asmdom::VNode* current_view;
 
 void render();
 

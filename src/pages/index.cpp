@@ -2,6 +2,8 @@
 #include "asm-dom.hpp"
 #include "globals.h"
 
+int i = 1;
+
 bool decrease(emscripten::val) {
   i--;
   render();

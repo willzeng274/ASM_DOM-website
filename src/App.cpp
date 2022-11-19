@@ -2,8 +2,6 @@
 #include "asm-dom.hpp"
 #include "globals.h"
 
-int i = 1;
-
 asmdom::VNode* current_view = NULL;
 
 std::string page = "/";

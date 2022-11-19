@@ -10,6 +10,8 @@ This includes:
 
 The boilerplate automatically compiles C++ code to WebAssembly and asm.js, the client will dynamically require the first if supported, the second otherwise.
 
+NOTE: If you are some dumb Windows user PLEASE read the instructions in Makefile
+
 # Project Structure
 
 ```
