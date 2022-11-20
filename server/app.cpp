@@ -5,6 +5,8 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include "uri.cpp"
+#include "compress.cpp"
 
 #define PORT 8080
 
@@ -59,24 +61,42 @@ int main() {
       }
     }
 
+    // Uri uri1 = Uri::Parse(L"http://localhost:8080/" + std::wstring(URL.begin(), URL.end()));
+
     if (URL == "favicon.ico") {
       close(new_socket);
       continue;
     }
 
-    std::ifstream t((URL == "" ? "index" : URL)+".html");
-    std::string html( (std::istreambuf_iterator<char>(t) ), (std::istreambuf_iterator<char>()));
+    std::string response_s = "";
+
+    std::string content_type = "text/plain";
+
+    if (URL.find(".") == std::string::npos) {
+      // serve HTML if no file extension
+      std::ifstream t((URL == "" ? "index" : URL)+".html", std::ios::in | std::ios::binary);
+      std::string html( (std::istreambuf_iterator<char>(t) ), (std::istreambuf_iterator<char>()));
+      response_s = html;
+      content_type = "text/html";
+    } else {
+      // static serving
+      std::ifstream t(URL, std::ios::in | std::ios::binary);
+      std::string content( (std::istreambuf_iterator<char>(t) ), (std::istreambuf_iterator<char>()));
+      response_s = content;
+    }
 
     std::string response = (
       "HTTP/1.1 200 OK\n"
-      "Content-Type: text/html\n"
-      "Content-Length: " + std::to_string(html.length()) + "\n\n"
-      + html
+      "Cache-Control: max-age=120\n"
+      "Content-Type: " + content_type + "\n"
+      "Content-Encoding: deflate\n"
+      "Content-Length: " + std::to_string(response_s.length()) + "\n\n"
+      + compress_string(response_s)
     );
 
     char * hello = (char *)response.data();
 
-    write(new_socket , hello , strlen(hello));
+    write(new_socket , hello , response.size());
     std::cout << "------------------message sent-------------------";;
     close(new_socket);
   }

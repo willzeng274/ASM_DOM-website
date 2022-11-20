@@ -18,6 +18,8 @@ NOTE: If you are some dumb Windows user PLEASE read the instructions in Makefile
 .
 ├── glue/
 |   └── load.js
+├── server/
+|   └── app.cpp <- C++ http server for you to test your stuff
 ├── src/
 │   ├── assets
 |   |   └── *all css and media files
@@ -34,7 +36,7 @@ NOTE: If you are some dumb Windows user PLEASE read the instructions in Makefile
 ├── .babelrc
 ├── .postcssrc
 ├── .gitignore
-├──index.html
+├── index.html
 └── package.json
 ```
 
